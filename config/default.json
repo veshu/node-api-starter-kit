@@ -1,0 +1,8 @@
+{
+  "JWT_SECRET": "secret",
+  "env": "development",
+  "port": 8080,
+  "logLevel": "debug",
+  "version": "v1",
+  "MONGODB_URI": "mongodb://localhost:27017/api-starter"
+}
