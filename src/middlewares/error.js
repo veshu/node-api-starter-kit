@@ -8,7 +8,7 @@ const errors = require('../common/APIError');
  */
 const handler = (err, req, res, next) => {
   const response = {
-    code: err.status,
+    // code: err.status,
     message: err.message || httpStatus[err.status],
     errors: err.errors,
     stack: err.stack,
@@ -17,7 +17,6 @@ const handler = (err, req, res, next) => {
   if (process.env.NODE_ENV !== 'development') {
     delete response.stack;
   }
-
   res.status(err.status);
   res.json(response);
 };

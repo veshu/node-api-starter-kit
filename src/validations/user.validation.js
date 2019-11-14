@@ -1,4 +1,7 @@
-const Joi = require('joi');
+const JoiBase = require('joi');
+const JoiObjectId = require('joi-mongodb-objectid');
+
+const Joi = JoiBase.extend(JoiObjectId);
 
 module.exports = {
 
@@ -15,9 +18,25 @@ module.exports = {
       handle: Joi.string().required(),
     },
   },
+
   deleteItem: {
     params: {
-      id: Joi.string().required(),
+      id: Joi.objectId().required(),
+    },
+  },
+
+  getItem: {
+    params: {
+      id: Joi.objectId().required(),
+    },
+  },
+
+  update: {
+    params: {
+      id: Joi.objectId().required(),
+    },
+    body: {
+      handle: Joi.string().required(),
     },
   },
 };

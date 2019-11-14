@@ -1,10 +1,5 @@
 const mongoose = require('mongoose');
 
-
-/**
- * User Schema
- * @private
- */
 const userSchema = new mongoose.Schema({
   handle: {
     type: String,
@@ -50,7 +45,4 @@ userSchema.method({
 });
 
 
-/**
- * @typedef User
- */
 module.exports = mongoose.model('User', userSchema);

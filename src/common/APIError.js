@@ -54,12 +54,12 @@ class APIError extends ExtendableError {
 
 module.exports = {
   APIError,
-  NotFoundError: new APIError({
-    message: 'NotFound',
+  NotFoundError: (message) => new APIError({
+    message,
     status: httpStatus.NOT_FOUND,
   }),
-  BadRequestError: new APIError({
-    message: 'NotFound',
+  BadRequestError: (message) => new APIError({
+    message,
     status: httpStatus.BAD_REQUEST,
   }),
   ValidationError: (errors, message, err) => new APIError({

@@ -1,28 +1,35 @@
 const {
   omitBy,
+  assign,
   isNil,
 } = require('lodash');
 const User = require('../models/user.model');
 const errors = require('../common/APIError');
-
+const helper = require('../common/helper');
 
 /**
  * Create new user
  * @public
  */
 exports.create = async (data) => {
-  if (await User.count({
-      handle: data.handle,
-    }) > 0) {
+  const count = await User.count({
+    handle: data.handle,
+  });
+  if (count > 0) {
     throw errors.ValidationError([{
       field: 'handle',
       location: 'body',
       messages: ['"handle" already exists'],
     }]);
   }
-  const user = new User(data);
-  const savedUser = await user.save();
-  return savedUser.transform();
+  const item = new User(data);
+  const savedItem = await item.save();
+  return savedItem.transform();
+};
+
+exports.getById = async (id) => {
+  const item = await helper.ensureIfExists(User, id);
+  return item.transform();
 };
 
 /**
@@ -39,10 +46,20 @@ exports.search = async (options) => {
     .limit(options.perPage)
     .exec();
 
-  return items.map((user) => user.transform());
+  return items.map((item) => item.transform());
 };
 
+exports.update = async (id, data) => {
+  let item = await helper.ensureIfExists(User, id);
+  item = assign(item, data);
+  const updated = await item.save();
+  return updated.transform();
+};
 
 exports.remove = async (id) => {
-  await User.findByIdAndDelete(id);
+  await helper.ensureIfExists(User, id);
+
+  await User.deleteOne({
+    _id: id,
+  });
 };
