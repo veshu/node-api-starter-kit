@@ -1,6 +1,8 @@
 {
   "env": "development",
   "port": 8080,
+  "JwtExpirationMinute": 120,
+  "jwtSecret": "jwt secrete key",
   "logLevel": "debug",
   "MONGODB_URI": "mongodb://localhost:27017/api-starter"
 }

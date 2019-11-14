@@ -63,3 +63,30 @@ exports.remove = async (id) => {
     _id: id,
   });
 };
+
+exports.login = async (username, password) => {
+  const user = await User.findOne({
+    handle: username,
+  });
+  console.log(user);
+  if (user && await user.passwordMatches(password)) {
+    console.log(user.toJSON().handle);
+    return {
+      token: user.token(),
+      user: user.transform(),
+    };
+  }
+  throw new errors.APIError({
+    status: 401,
+    message: 'Incorrect username or password',
+  });
+};
+
+exports.register = async (data) => {
+  const user = await (new User(data)).save();
+
+  return {
+    token: user.token(),
+    user: user.transform(),
+  };
+};

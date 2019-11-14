@@ -8,6 +8,9 @@ const {
   getItem,
   update,
 } = require('../validations/user.validation');
+const {
+  authorize,
+} = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -17,7 +20,7 @@ router
   .post(validate(create), controller.create);
 router
   .route('/:id')
-  .delete(validate(deleteItem), controller.remove)
+  .delete(authorize(), validate(deleteItem), controller.remove)
   .get(validate(getItem), controller.getOne)
   .put(validate(update), controller.update);
 
